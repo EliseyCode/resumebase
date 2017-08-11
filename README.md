@@ -1,0 +1,1 @@
+Web application project witch represents online resume base
