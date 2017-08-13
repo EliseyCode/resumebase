@@ -2,17 +2,18 @@ package ru.enovikow.resumedatabase.storage;
 
 import ru.enovikow.resumedatabase.model.Resume;
 
+import java.util.Arrays;
+
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private static final int STORAGE_CAPACITY = 10000;
+    private final Resume[] storage = new Resume[STORAGE_CAPACITY];
     private int size = 0;
 
     public void clear() {
-        for (int i = 0; i < storage.length; i++) {
-            storage[i] = null;
-        }
+        Arrays.fill(storage, 0, size(), null);
         size = 0;
     }
 
@@ -20,7 +21,7 @@ public class ArrayStorage {
         int index = getIndex(r.getUuid());
         if (index != -1) {
             System.out.println("Resume " + r.getUuid() + " already exist");
-        } else if (size == storage.length) {
+        } else if (size == STORAGE_CAPACITY) {
             System.out.println("Storage overflowed");
         } else {
             storage[size] = r;
@@ -61,9 +62,7 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        Resume[] result = new Resume[size];
-        System.arraycopy(storage, 0, result, 0, size);
-        return result;
+        return Arrays.copyOfRange(storage, 0, size());
     }
 
     public int size() {
