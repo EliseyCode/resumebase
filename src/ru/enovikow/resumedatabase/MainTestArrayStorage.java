@@ -2,12 +2,13 @@ package ru.enovikow.resumedatabase;
 
 import ru.enovikow.resumedatabase.model.Resume;
 import ru.enovikow.resumedatabase.storage.ArrayStorage;
+import ru.enovikow.resumedatabase.storage.Storage;
 
 /**
  * Test for ru.enovikow.resumedatabase.storage.ArrayStorage
  */
 public class MainTestArrayStorage {
-    private static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+    private static final Storage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) {
         Resume r1 = new Resume();
