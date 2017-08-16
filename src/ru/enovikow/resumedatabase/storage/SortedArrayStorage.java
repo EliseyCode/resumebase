@@ -5,40 +5,27 @@ import ru.enovikow.resumedatabase.model.Resume;
 import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
-    @Override
-    public void clear() {
 
+    @Override
+    protected void fillDeletedElement(int index) {
+        int valToMove = size - index - 1;
+        if (valToMove > 0) {
+            System.arraycopy(storage, index + 1, storage, index, valToMove);
+        }
     }
 
     @Override
-    public void save(Resume r) {
-
-    }
-
-    @Override
-    public void update(Resume r) {
-
-    }
-
-    @Override
-    public Resume get(String uuid) {
-        return null;
-    }
-
-    @Override
-    public void delete(String uuid) {
-
-    }
-
-    @Override
-    public Resume[] getAll() {
-        return new Resume[0];
+    protected void insertElement(Resume r, int index) {
+        int insertIndex = -index - 1;
+        System.out.println(index);
+        System.arraycopy(storage, insertIndex, storage, insertIndex + 1, size - insertIndex);
+        storage[insertIndex] = r;
     }
 
     @Override
     protected int getIndex(String uuid) {
         Resume resume = new Resume();
         resume.setUuid(uuid);
-        return Arrays.binarySearch(storage, 0 , size(), resume);
+        return Arrays.binarySearch(storage, 0, size, resume);
     }
 }
