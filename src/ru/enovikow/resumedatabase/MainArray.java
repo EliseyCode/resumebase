@@ -2,6 +2,7 @@ package ru.enovikow.resumedatabase;
 
 import ru.enovikow.resumedatabase.model.Resume;
 import ru.enovikow.resumedatabase.storage.ArrayStorage;
+import ru.enovikow.resumedatabase.storage.SortedArrayStorage;
 import ru.enovikow.resumedatabase.storage.Storage;
 
 import java.io.BufferedReader;
@@ -36,8 +37,7 @@ public class MainArray {
                     System.out.println(ARRAY_STORAGE.size());
                     break;
                 case "save":
-                    r = new Resume();
-                    r.setUuid(uuid);
+                    r = new Resume(uuid);
                     ARRAY_STORAGE.save(r);
                     printAll();
                     break;

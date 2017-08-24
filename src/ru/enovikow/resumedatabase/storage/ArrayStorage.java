@@ -7,6 +7,7 @@ import ru.enovikow.resumedatabase.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
+    @Override
     protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].getUuid())) {
@@ -23,6 +24,6 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void insertElement(Resume r, int index) {
-        storage[index] = r;
+        storage[size] = r;
     }
 }

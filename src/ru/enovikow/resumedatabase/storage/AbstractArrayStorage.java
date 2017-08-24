@@ -1,5 +1,8 @@
 package ru.enovikow.resumedatabase.storage;
 
+import ru.enovikow.resumedatabase.exception.ResumeExistStorageException;
+import ru.enovikow.resumedatabase.exception.ResumeNotExistStorageException;
+import ru.enovikow.resumedatabase.exception.ResumeStorageException;
 import ru.enovikow.resumedatabase.model.Resume;
 
 import java.util.Arrays;
@@ -11,10 +14,10 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public void save(Resume r) {
         int index = getIndex(r.getUuid());
-        if (index > 0) {
-            System.out.println("Resume " + r.getUuid() + " already exist");
+        if (index >= 0) {
+            throw new ResumeExistStorageException(r.getUuid());
         } else if (size == STORAGE_CAPACITY) {
-            System.out.println("Storage overflowed");
+            throw new ResumeStorageException("Storage overflowed", r.getUuid());
         } else {
             insertElement(r, index);
             size++;
@@ -24,7 +27,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void update(Resume r) {
         int index = getIndex(r.getUuid());
         if (index < 0) {
-            System.out.println("Resume " + r.getUuid() + " does't exist");
+           throw new ResumeNotExistStorageException(r.getUuid());
         } else {
             storage[index] = r;
         }
@@ -33,7 +36,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("Resume " + uuid + " does't exist");
+            throw new ResumeNotExistStorageException(uuid);
         } else {
             fillDeletedElement(index);
             storage[size - 1] = null;
@@ -44,8 +47,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("Resume " + uuid + " does't exist");
-            return null;
+            throw new ResumeNotExistStorageException(uuid);
         } else {
             return storage[index];
         }
