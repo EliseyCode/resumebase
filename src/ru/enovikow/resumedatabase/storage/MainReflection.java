@@ -3,21 +3,26 @@ package ru.enovikow.resumedatabase.storage;
 import ru.enovikow.resumedatabase.model.Resume;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class MainReflection {
 
-    public static void main(String[] args) throws Exception {
-        Resume r = new Resume();
+    public static void main(String[] args) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        Resume resume = new Resume();
 
-        Field field = r.getClass().getDeclaredFields()[0];
+        Field field = resume.getClass().getDeclaredFields()[0];
         field.setAccessible(true);
         System.out.println(field.getName());
-        System.out.println(field.get(r));
-        field.set(r, "new_uuid");
-        // TODO : invoke r.toString via reflection
-        System.out.println(r);
+        System.out.println(field.get(resume));
+        field.set(resume, "new_uuid");
 
-        Class mc = Class.forName("ru.enovikow.resumedatabase.model.Resume");
-        System.out.println(mc.toGenericString());
+        System.out.println(resume);
+
+        Class mc = resume.getClass();
+        Method method = mc.getMethod("toString");
+        Object result = method.invoke(resume);
+        System.out.println(result);
+
     }
 }
